@@ -1,13 +1,21 @@
 # Password-Filters
 
-Public offline breach-database filters for Ravelock, provided by Sottio Studio.
+Public, offline breach-database filters for Ravelock, derived from [Have I Been Pwned Pwned Passwords](https://haveibeenpwned.com/Passwords) using the [official downloader](https://github.com/HaveIBeenPwned/PwnedPasswordsDownloader). No plaintext passwords are published here.
 
-Download prepared binary files from Releases. Large database files are release assets, not Git source files. Each release records its source snapshot, coverage, size, estimated false-positive rate, and SHA-256 checksum.
+## Snapshot: 2026-10-30
 
-The source is Have I Been Pwned Pwned Passwords, retrieved with its official downloader: https://github.com/HaveIBeenPwned/PwnedPasswordsDownloader
+The downloaded source contains **2,068,408,781 unique SHA-1 hashes** and **57,002,655,265 reported occurrences**. Hashes are ranked by occurrence count; ties are resolved by hash order.
 
-The compact filter represents the most commonly breached passwords selected by reported occurrence counts. The optional expanded filter represents every hash in its downloaded source snapshot. Neither covers breaches absent from that snapshot. Bloom matches are probabilistic; a possible match is rejected conservatively.
+| Dataset | Unique hashes selected | Share of unique source hashes | Share of reported occurrences | File size | Estimated false positives |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Core (bundled with Ravelock) | 48,341,725 | 2.34% | 65.7% | 36 MiB | 5% |
+| Medium (optional) | 206,840,879 | 10% | 83.9% | 154 MiB | 5% |
+| Large (optional) | 620,522,635 | 30% | 94.0% | 462 MiB | 5% |
 
-Ravelock checks passwords locally. Browser downloads do not upload passwords, password hashes, or vault contents from Ravelock. GitHub handles download requests under its own privacy practices.
+Download **ravelock-medium.bin** or **ravelock-large.bin** from [Releases](https://github.com/Sottio/Password-Filters/releases), then import it using Ravelock’s file picker. The app itself has no INTERNET permission. Optional files are release assets, not Git source files.
 
-Use only the database matching your app version. Ravelock verifies imported files against a fingerprint shipped in the app. Do not upload vault files or personal credentials to this repository.
+All three filters are frequency-ranked subsets, not the entire corpus. The reported-occurrence percentages describe this source snapshot, not the proportion of people or future breaches protected. A negative result does not establish that a password has never been breached. A Bloom match means possibly present; approximately 5% of nonmembers may match. Ravelock rejects matching generated candidates and tries again.
+
+Every selected hash was checked against its completed filter: zero selected-member misses. Source provenance, parameters and SHA-256 checksums are provided in each release. Ravelock pins the expected fingerprint and rejects modified or incompatible imports; a new snapshot requires compatible app metadata.
+
+Source SHA-256: `553EF4A84E4273A712920ECA22908FED766A08E26EF6FD215C2B9D036C96AB2C`. The occurrence count attached to each hash is used only for selection; individual counts cannot be recovered from these filters.
